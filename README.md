@@ -1,0 +1,1 @@
+# docker-machine-sakuracloud-installer

@@ -1,0 +1,36 @@
+FROM debian:jessie
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN dpkg --add-architecture i386
+RUN sed -i "s/main/main contrib non-free/" etc/apt/sources.list
+RUN apt-get update && apt-get install -yq wine curl unrar unzip
+
+# innosetup
+RUN mkdir innosetup && \
+    cd innosetup && \
+    curl -fsSL -o innounp043.rar "https://downloads.sourceforge.net/project/innounp/innounp/innounp%200.43/innounp043.rar?r=&ts=1439566551&use_mirror=skylineservers" && \
+    unrar e innounp043.rar
+
+RUN cd innosetup && \
+    curl -fsSL -o is-unicode.exe http://www.jrsoftware.org/download.php/is-unicode.exe && \
+    wine "./innounp.exe" -e "is-unicode.exe"
+
+# installer components
+ENV INSTALLER_VERSION 0.0.5
+ENV DOCKER_MACHINE_SAKURACLOUD_VERSION 0.0.5
+
+RUN mkdir /bundle
+WORKDIR /bundle
+
+
+  RUN curl -fsSL -o docker-machine-sakuracloud.zip "https://github.com/yamamoto-febc/docker-machine-sakuracloud/releases/download/v$DOCKER_MACHINE_SAKURACLOUD_VERSION/docker-machine-driver-sakuracloud-windows-amd64.zip" && \
+    unzip docker-machine-sakuracloud.zip && \
+    rm docker-machine-sakuracloud.zip
+
+# Add installer resources
+COPY windows /installer
+
+WORKDIR /installer
+RUN rm -rf /tmp/.wine-0/
+RUN wine ../innosetup/ISCC.exe DockerMachineSakuracloud.iss /DMyAppVersion=$INSTALLER_VERSION
