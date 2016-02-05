@@ -17,8 +17,8 @@ RUN cd innosetup && \
     wine "./innounp.exe" -e "is-unicode.exe"
 
 # installer components
-ENV INSTALLER_VERSION 0.0.7
-ENV DOCKER_MACHINE_SAKURACLOUD_VERSION 0.0.7
+ENV INSTALLER_VERSION 0.0.8
+ENV DOCKER_MACHINE_SAKURACLOUD_VERSION 0.0.8
 
 RUN mkdir /bundle
 WORKDIR /bundle
