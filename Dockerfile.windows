@@ -17,16 +17,13 @@ RUN cd innosetup && \
     wine "./innounp.exe" -e "is-unicode.exe"
 
 # installer components
-ENV INSTALLER_VERSION 0.0.8
-ENV DOCKER_MACHINE_SAKURACLOUD_VERSION 0.0.8
+ENV INSTALLER_VERSION 0.0.10
+ENV DOCKER_MACHINE_SAKURACLOUD_VERSION 0.0.10
 
 RUN mkdir /bundle
 WORKDIR /bundle
 
-
-  RUN curl -fsSL -o docker-machine-sakuracloud.zip "https://github.com/yamamoto-febc/docker-machine-sakuracloud/releases/download/v$DOCKER_MACHINE_SAKURACLOUD_VERSION/docker-machine-driver-sakuracloud-windows-amd64.zip" && \
-    unzip docker-machine-sakuracloud.zip && \
-    rm docker-machine-sakuracloud.zip
+  RUN curl -fsSL -o docker-machine-driver-sakuracloud.exe "https://github.com/yamamoto-febc/docker-machine-sakuracloud/releases/download/v$DOCKER_MACHINE_SAKURACLOUD_VERSION/docker-machine-driver-sakuracloud-Windows-x86_64.exe"
 
 # Add installer resources
 COPY windows /installer
