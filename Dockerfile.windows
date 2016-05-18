@@ -1,6 +1,7 @@
+#FROM debian:jessie-backports
 FROM debian:jessie
 
-ENV DEBIAN_FRONTEND noninteractive
+#ENV DEBIAN_FRONTEND noninteractive
 
 RUN dpkg --add-architecture i386
 RUN sed -i "s/main/main contrib non-free/" etc/apt/sources.list
@@ -13,12 +14,12 @@ RUN mkdir innosetup && \
     unrar e innounp045.rar
 
 RUN cd innosetup && \
-    curl -fsSL -o is-unicode.exe http://www.jrsoftware.org/download.php/is-unicode.exe && \
+    curl -fsSL -o is-unicode.exe http://files.jrsoftware.org/is/5/isetup-5.5.8-unicode.exe && \
     wine "./innounp.exe" -e "is-unicode.exe"
 
 # installer components
-ENV INSTALLER_VERSION 0.0.10-p1
-ENV DOCKER_MACHINE_SAKURACLOUD_VERSION 0.0.10-p1
+ENV INSTALLER_VERSION 0.0.11
+ENV DOCKER_MACHINE_SAKURACLOUD_VERSION 0.0.11
 
 RUN mkdir /bundle
 WORKDIR /bundle
